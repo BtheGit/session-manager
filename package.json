@@ -1,0 +1,11 @@
+{
+  "name": "demo-browser-session",
+  "version": "0.1.0",
+  "description": "Demo SDK to track user session activity exclusively in the browser",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brendan Beltz",
+  "license": "ISC"
+}
