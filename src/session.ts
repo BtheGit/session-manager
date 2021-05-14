@@ -1,49 +1,27 @@
-import Cookie from "js-cookie";
 import { v4 as uuidv4 } from "uuid";
+import { Session } from "./types";
+import { clampSessionExpiration } from "./util";
+import { readSession, writeSession } from "./storage";
+import { CAMPAIGN, SESSION_LENGTH_IN_MS } from "./constants";
 
-const SESSION_COOKIE_ID = "_insticatorSession";
-const CAMPAIGN = "utm_campaign";
-const SESSION_LENGTH_IN_MS = 1_800_000;
-
-interface Session {
-  id: string;
-  expiration: string;
-  referrer: string;
-  campaign: string | null;
-}
-
-function capSessionExpiration(nextExpiration: Date): Session["expiration"] {
-  const maximumAllowedExpiration = new Date(
-    new Date().setHours(23, 59, 59, 999)
-  );
-  return new Date(
-    Math.min(nextExpiration as any, maximumAllowedExpiration as any)
-  ).toISOString();
-}
-
-// Utilities
-function updateActiveSession(
+export function updateActiveSession(
   campaign: Session["campaign"],
   id = uuidv4()
 ): Session {
-  // NOTE: Need to be HTTPS or this will not be available.
   const { referrer } = document;
-  const maximumPermissableSessionExpiration = new Date(
-    Date.now() + SESSION_LENGTH_IN_MS
-  );
-  const expiration = capSessionExpiration(maximumPermissableSessionExpiration);
+  const clampedSessionExpiration = clampSessionExpiration(SESSION_LENGTH_IN_MS);
   const session: Session = {
     id,
-    expiration,
+    expiration: clampedSessionExpiration.toISOString(),
     referrer,
     campaign,
   };
-  Cookie.set(SESSION_COOKIE_ID, session);
+  writeSession(session);
   return session;
 }
 
-function getActiveSession(): Session {
-  return Cookie.getJSON(SESSION_COOKIE_ID);
+export function getActiveSession(): Session {
+  return readSession();
 }
 
 export function getSession(): Session {
@@ -55,10 +33,10 @@ export function getSession(): Session {
 
   const { expiration, campaign: activeCampaign } = activeSession;
   const isSessionExpired = Date.parse(expiration) < Date.now();
-  const isNewCampaign =
-    newCampaign !== "" &&
-    activeCampaign !== "" &&
-    newCampaign !== activeCampaign;
+  // Internal URLs should not be expected to persist UTM values (considered bad practice),
+  // therefore, if a campaign value already exists and a new one does not, we do not have enough
+  // information to confidently expire the existing camapaign.
+  const isNewCampaign = newCampaign !== null && newCampaign !== activeCampaign;
   if (isSessionExpired || isNewCampaign) {
     return updateActiveSession(newCampaign);
   }
