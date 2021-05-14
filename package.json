@@ -12,10 +12,31 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "microbundle"
   },
-  "author": "Brendan Beltz",
+  "lint-staged": {
+    "**/*.{js,ts,md,json}": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "author": {
+    "name": "Brendan Beltz",
+    "email": "brendanwebdev@gmail.com"
+  },
   "license": "MIT",
   "devDependencies": {
-    "husky": "^6.0.0",
-    "microbundle": "^0.13.0"
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "husky": "^4.3.8",
+    "lint-staged": "^11.0.0",
+    "microbundle": "^0.13.0",
+    "prettier": "2.3.0",
+    "typescript": "^4.2.4"
   }
 }
