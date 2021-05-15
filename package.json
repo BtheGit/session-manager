@@ -14,12 +14,12 @@
   },
   "lint-staged": {
     "**/*.{js,ts,md,json}": [
-      "prettier --write --ignore-unknown --ignore-path .gitignore"
+      "prettier --write --ignore-unknown"
     ]
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run test"
     }
   },
   "author": {
