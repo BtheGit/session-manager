@@ -74,6 +74,18 @@ or
 $ yarn test
 ```
 
+In addition, a sandbox page is available to be served locally for in browser testing of the core library. Run the `demo` npm script and open the devtools to begin observing the behavior of the library.
+
+```
+npm run demo
+```
+
+or
+
+```
+yarn demo
+```
+
 # FAQ
 
 ## Why is there no referrer value in the session data?

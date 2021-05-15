@@ -10,7 +10,8 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "build": "microbundle"
+    "build": "microbundle",
+    "demo": "npm run build && npx concurrently \"npx http-server -p 9292\" \"npx open http://localhost:9292/demo/index.html\""
   },
   "lint-staged": {
     "**/*.{js,ts,md,json}": [

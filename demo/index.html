@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InsticatorSession Sandbox</title>
+  <script src="../dist/InsticatorSession.umd.js"></script>
+</head>
+<body>
+  <h1>InsticatorSession Sandbox</h1>
+  <p>To observe the behavior of InsticatorSession, open the console in devtools. Call `InsticatorSession.getSession()` to create and update sessions.</p>
+  <p>(NOTE: Select 'preserve log' to observe behavior between refreshes)</p>
+  <ul>
+    <li>
+      <p>Try changing the utm_campaign value on the search params and refreshing.</p>
+    </li>
+    <li>
+      <p>Try creating a session and calling it again after a short delay to see the updated expiration time.</p>
+    </li>
+    <li>
+      <p>Try creating a session and calling it again after a long delay to see the replacement session.</p>
+    </li>
+    <li>
+      <p>Try creating a session and closing and reopening the browser to see if the session is persisted.</p>
+    </li>
+    <li>
+      <p>And so on...</p>
+    </li>
+  </ul>
+</body>
+</html>
